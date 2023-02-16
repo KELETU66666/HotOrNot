@@ -107,7 +107,8 @@ public class MittsItem extends Item implements IBauble {
                 return;
             }
 
-            if (!entity.world.isRemote && ring1.getItemDamage() != 0 && ring2.getItemDamage() != 1) { // When the left one is on 'right' hand or
+            if (ring1.getItemDamage() != 0 && ring2.getItemDamage() != 1) {
+                if(!entity.world.isRemote)
                 entity.sendMessage(new TextComponentString(TextFormatting.RED.toString() + TextFormatting.BOLD + I18n.translateToLocal("item.hotornot.mitts.tooltip")));
                 entity.playSound(SoundEvents.ENTITY_VILLAGER_NO, 1, 1);
             }
