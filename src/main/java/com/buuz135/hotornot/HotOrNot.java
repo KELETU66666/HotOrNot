@@ -21,6 +21,10 @@
  */
 package com.buuz135.hotornot;
 
+import baubles.api.BaublesApi;
+import baubles.api.cap.IBaublesItemHandler;
+import com.buuz135.hotornot.item.MittsItem;
+import com.buuz135.hotornot.item.SuperMittsItem;
 import com.buuz135.hotornot.proxy.CommonProxy;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
@@ -138,10 +142,19 @@ public class HotOrNot {
                                 if (fluidStack != null) {
                                     for (FluidEffect effect : FluidEffect.values()) {
                                         if (effect.isValid.test(fluidStack)) {
-                                            ItemStack offHand = entityPlayerMP.getHeldItemOffhand();
-                                            if (offHand.getItem().equals(CommonProxy.MITTS)) {
-                                                offHand.damageItem(1, entityPlayerMP);
-                                            } else if (event.world.getTotalWorldTime() % 20 == 0) {
+                                            IBaublesItemHandler baublesInv = BaublesApi.getBaublesHandler(entityPlayerMP);
+                                            ItemStack ring1 = baublesInv.getStackInSlot(1);
+                                            ItemStack ring2 = baublesInv.getStackInSlot(2);
+                                            if (ring1.getItem() instanceof MittsItem && ring2.getItem() instanceof MittsItem && ring1.getMetadata() == 0 && ring2.getMetadata() == 1 && ring1.getTagCompound().getInteger(MittsItem.NBTTAG_DURABILITY) >= 1 && ring2.getTagCompound().getInteger(MittsItem.NBTTAG_DURABILITY) >= 1) {
+                                                if(ring1.getTagCompound() != null && ring2.getTagCompound() != null && event.world.getTotalWorldTime() % 20 == 0) {
+                                                    int tCurrentDura = MittsItem.getNBTDurability(ring1);
+                                                    int tCurrentDura1 = MittsItem.getNBTDurability(ring2);
+                                                    if (tCurrentDura > 0) {
+                                                        ring1.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, --tCurrentDura);
+                                                        ring2.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, --tCurrentDura1);
+                                                    }
+                                                }
+                                            } else if (event.world.getTotalWorldTime() % 20 == 0 && (!(ring1.getItem() instanceof SuperMittsItem) && !(ring2.getItem() instanceof SuperMittsItem))) {
                                                 effect.interactPlayer.accept(entityPlayerMP);
                                             }
                                         }
@@ -169,9 +182,6 @@ public class HotOrNot {
 
         @Config.Comment("If true, the items that contain hot fluid will have a tooltip that will show that they are too hot")
         public static boolean TOOLTIP = true;
-
-        @Config.Comment("Max durability of the mitts")
-        public static int MITTS_DURABILITY = 20 * 60 * 10;
 
         @Mod.EventBusSubscriber(modid = MOD_ID)
         private static class EventHandler {

@@ -25,6 +25,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void modelRegistryEvent(ModelRegistryEvent event) {
-        ModelLoader.setCustomModelResourceLocation(MITTS, 0, new ModelResourceLocation(MITTS.getRegistryName(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(MITTS, 0, new ModelResourceLocation(MITTS.getRegistryName() + "left", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(MITTS, 1, new ModelResourceLocation(MITTS.getRegistryName() + "right", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(SUPERMITTS, 0, new ModelResourceLocation(SUPERMITTS.getRegistryName(), "inventory"));
     }
 }

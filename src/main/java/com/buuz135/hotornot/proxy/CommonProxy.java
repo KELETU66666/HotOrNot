@@ -3,6 +3,7 @@ package com.buuz135.hotornot.proxy;
 
 
 import com.buuz135.hotornot.item.MittsItem;
+import com.buuz135.hotornot.item.SuperMittsItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CommonProxy {
 
     public static MittsItem MITTS = new MittsItem();
+    public static SuperMittsItem SUPERMITTS = new SuperMittsItem();
 
     public void preInit(FMLPreInitializationEvent event) {
 
@@ -31,6 +33,7 @@ public class CommonProxy {
 
     public void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(MITTS);
+        event.getRegistry().register(SUPERMITTS);
     }
 
     @SideOnly(Side.CLIENT)

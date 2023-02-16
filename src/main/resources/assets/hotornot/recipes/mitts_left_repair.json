@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "hotornot:mitts",
+    "data": 0
+  },
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "hotornot:mitts",
+      "data": 0
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "leather"
+    }
+  ]
+}

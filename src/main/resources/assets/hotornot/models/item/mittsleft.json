@@ -1,0 +1,6 @@
+{
+  "parent": "hotornot:item/item",
+  "textures": {
+    "layer0": "hotornot:items/mitts"
+  }
+}

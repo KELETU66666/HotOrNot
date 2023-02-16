@@ -1,12 +1,12 @@
 {
   "result": {
     "item": "hotornot:mitts",
-    "data": 0
+    "data": 1
   },
   "pattern": [
     " W ",
     "WLW",
-    "IW "
+    " WI"
   ],
   "type": "forge:ore_shaped",
   "key": {
