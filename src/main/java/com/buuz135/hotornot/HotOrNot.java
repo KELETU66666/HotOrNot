@@ -150,8 +150,8 @@ public class HotOrNot {
                                                     int tCurrentDura = MittsItem.getNBTDurability(ring1);
                                                     int tCurrentDura1 = MittsItem.getNBTDurability(ring2);
                                                     if (tCurrentDura > 0 && event.world.getTotalWorldTime() % 20 == 0) {
-                                                        ring1.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, --tCurrentDura);
-                                                        ring2.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, --tCurrentDura1);
+                                                        ring1.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, tCurrentDura - 1);
+                                                        ring2.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, tCurrentDura1 - 1);
                                                     }
                                                 }
                                             } else if (event.world.getTotalWorldTime() % 20 == 0 && (!(ring1.getItem() instanceof SuperMittsItem) && !(ring2.getItem() instanceof SuperMittsItem))) {
