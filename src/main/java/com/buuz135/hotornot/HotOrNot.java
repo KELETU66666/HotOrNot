@@ -149,7 +149,7 @@ public class HotOrNot {
                                                 if(ring1.getTagCompound() != null && ring2.getTagCompound() != null && event.world.getTotalWorldTime() % 20 == 0) {
                                                     int tCurrentDura = MittsItem.getNBTDurability(ring1);
                                                     int tCurrentDura1 = MittsItem.getNBTDurability(ring2);
-                                                    if (tCurrentDura > 0) {
+                                                    if (tCurrentDura > 0 && event.world.getTotalWorldTime() % 20 == 0) {
                                                         ring1.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, --tCurrentDura);
                                                         ring2.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, --tCurrentDura1);
                                                     }
