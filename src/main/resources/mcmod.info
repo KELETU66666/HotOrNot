@@ -1,14 +1,14 @@
 [
   {
     "modid": "hotornot",
-    "name": "HotOrNot",
+    "name": "Hot Or Not Kedition",
     "description": "Is this hot?",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
     "authorList": [
-      "Buuz135"
+      "Buuz135, keletu"
     ],
     "credits": "",
     "logoFile": "",

@@ -67,12 +67,11 @@ public class MittsItem extends Item implements IBauble {
     }
 
     public static int getNBTDurability(ItemStack pItemStack) {
-        if(pItemStack.getTagCompound() == null)
-            {
-                pItemStack.setTagCompound(new NBTTagCompound());
-                pItemStack.getTagCompound().setInteger(NBTTAG_DURABILITY, MaxDurability);
-                return pItemStack.getTagCompound().getInteger(NBTTAG_DURABILITY);
-            }
+        if (pItemStack.getTagCompound() == null) {
+            pItemStack.setTagCompound(new NBTTagCompound());
+            pItemStack.getTagCompound().setInteger(NBTTAG_DURABILITY, MaxDurability);
+            return pItemStack.getTagCompound().getInteger(NBTTAG_DURABILITY);
+        }
         return pItemStack.getTagCompound().getInteger(NBTTAG_DURABILITY);
     }
 
@@ -85,14 +84,14 @@ public class MittsItem extends Item implements IBauble {
             list.add("This glove is too damaged to protect you. You need to repair it");
         }
     }
-    
+
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return false;
     }
 
     @Override
-    public BaubleType getBaubleType(ItemStack itemStack)  {
+    public BaubleType getBaubleType(ItemStack itemStack) {
         return RING;
     }
 
@@ -108,8 +107,8 @@ public class MittsItem extends Item implements IBauble {
             }
 
             if (ring1.getItemDamage() != 0 && ring2.getItemDamage() != 1) {
-                if(!entity.world.isRemote)
-                entity.sendMessage(new TextComponentString(TextFormatting.RED.toString() + TextFormatting.BOLD + I18n.translateToLocal("item.hotornot.mitts.tooltip")));
+                if (!entity.world.isRemote)
+                    entity.sendMessage(new TextComponentString(TextFormatting.RED.toString() + TextFormatting.BOLD + I18n.translateToLocal("item.hotornot.mitts.tooltip")));
                 entity.playSound(SoundEvents.ENTITY_VILLAGER_NO, 1, 1);
             }
 

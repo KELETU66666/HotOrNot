@@ -108,8 +108,7 @@ public class HotOrNot {
             entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 21, 1));
             entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 21, 1));
         }, TextFormatting.AQUA, "tooltip.hotornot.toocold"),
-        GAS(fluidStack -> fluidStack.getFluid().isGaseous(fluidStack) && HotConfig.GASEOUS, entityPlayerMP -> entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 21, 1)), TextFormatting.YELLOW, "tooltip.hotornot.toolight")
-        ;
+        GAS(fluidStack -> fluidStack.getFluid().isGaseous(fluidStack) && HotConfig.GASEOUS, entityPlayerMP -> entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 21, 1)), TextFormatting.YELLOW, "tooltip.hotornot.toolight");
 
         private final Predicate<FluidStack> isValid;
         private final Consumer<EntityPlayerMP> interactPlayer;
@@ -132,12 +131,12 @@ public class HotOrNot {
         public static void onTick(TickEvent.WorldTickEvent event) {
             if (event.phase == TickEvent.Phase.START) {
                 for (EntityPlayerMP entityPlayerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-                    if (!entityPlayerMP.isBurning() && !entityPlayerMP.isCreative() && entityPlayerMP.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-                        IItemHandler handler = entityPlayerMP.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                    IItemHandler handler = entityPlayerMP.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+                    if (!entityPlayerMP.isBurning() && !entityPlayerMP.isCreative() && handler != null) {
                         for (int i = 0; i < handler.getSlots(); i++) {
                             ItemStack stack = handler.getStackInSlot(i);
-                            if (!stack.isEmpty() && stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-                                IFluidHandlerItem fluidHandlerItem = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+                            IFluidHandlerItem fluidHandlerItem = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+                            if (!stack.isEmpty() && fluidHandlerItem != null) {
                                 FluidStack fluidStack = fluidHandlerItem.drain(1000, false);
                                 if (fluidStack != null) {
                                     for (FluidEffect effect : FluidEffect.values()) {
@@ -146,7 +145,7 @@ public class HotOrNot {
                                             ItemStack ring1 = baublesInv.getStackInSlot(1);
                                             ItemStack ring2 = baublesInv.getStackInSlot(2);
                                             if (ring1.getItem() instanceof MittsItem && ring2.getItem() instanceof MittsItem && ring1.getMetadata() == 0 && ring2.getMetadata() == 1 && ring1.getTagCompound().getInteger(MittsItem.NBTTAG_DURABILITY) >= 1 && ring2.getTagCompound().getInteger(MittsItem.NBTTAG_DURABILITY) >= 1) {
-                                                if(ring1.getTagCompound() != null && ring2.getTagCompound() != null && event.world.getTotalWorldTime() % 20 == 0) {
+                                                if (ring1.getTagCompound() != null && ring2.getTagCompound() != null && event.world.getTotalWorldTime() % 20 == 0) {
                                                     int tCurrentDura = MittsItem.getNBTDurability(ring1);
                                                     int tCurrentDura1 = MittsItem.getNBTDurability(ring2);
                                                     if (tCurrentDura > 0 && event.world.getTotalWorldTime() % 20 == 0) {
