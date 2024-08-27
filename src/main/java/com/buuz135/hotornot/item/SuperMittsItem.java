@@ -13,7 +13,7 @@ public class SuperMittsItem extends Item implements IBauble {
         setRegistryName(HotOrNot.MOD_ID, "supermitts");
         setMaxStackSize(1);
         setMaxDamage(0);
-        setUnlocalizedName(HotOrNot.MOD_ID + ".supermitts");
+        setTranslationKey(HotOrNot.MOD_ID + ".supermitts");
         setCreativeTab(CreativeTabs.TOOLS);
     }
     @Override

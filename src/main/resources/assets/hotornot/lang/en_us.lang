@@ -4,4 +4,8 @@ tooltip.hotornot.toolight=Too light to handle!
 
 item.hotornot.mitts.name=Mitts
 item.hotornot.supermitts.name=Super Mitts
-item.hotornot.mitts.tooltip=Wrong place, The gloves feel weird...
+
+item.hotornot.mitts.tooltip.1=Protecting your fingers since 1890
+item.hotornot.mitts.tooltip.2=This glove is too damaged to protect you. You need to repair it
+item.hotornot.mitts.tooltip.durability=Durability: %d/%d
+item.hotornot.mitts.tooltip.error=Wrong place, The gloves feel weird...

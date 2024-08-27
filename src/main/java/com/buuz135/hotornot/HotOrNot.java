@@ -21,42 +21,18 @@
  */
 package com.buuz135.hotornot;
 
-import baubles.api.BaublesApi;
-import baubles.api.cap.IBaublesItemHandler;
-import com.buuz135.hotornot.item.MittsItem;
-import com.buuz135.hotornot.item.SuperMittsItem;
 import com.buuz135.hotornot.proxy.CommonProxy;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 @Mod(
         modid = HotOrNot.MOD_ID,
@@ -66,8 +42,8 @@ import java.util.function.Predicate;
 public class HotOrNot {
 
     public static final String MOD_ID = "hotornot";
-    public static final String MOD_NAME = "HotOrNot";
-    public static final String VERSION = "1.1.2";
+    public static final String MOD_NAME = "HotOrNot Kedition";
+    public static final String VERSION = "1.0.0";
 
     @SidedProxy(clientSide = "com.buuz135.hotornot.proxy.ClientProxy", serverSide = "com.buuz135.hotornot.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -99,116 +75,6 @@ public class HotOrNot {
         @SideOnly(Side.CLIENT)
         public static void modelRegistryEvent(ModelRegistryEvent event) {
             proxy.modelRegistryEvent(event);
-        }
-    }
-
-    public enum FluidEffect {
-        HOT(fluidStack -> fluidStack.getFluid().getTemperature(fluidStack) >= HotConfig.HOT, entityPlayerMP -> entityPlayerMP.setFire(1), TextFormatting.RED, "tooltip.hotornot.toohot"),
-        COLD(fluidStack -> fluidStack.getFluid().getTemperature(fluidStack) <= HotConfig.COLD, entityPlayerMP -> {
-            entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 21, 1));
-            entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 21, 1));
-        }, TextFormatting.AQUA, "tooltip.hotornot.toocold"),
-        GAS(fluidStack -> fluidStack.getFluid().isGaseous(fluidStack) && HotConfig.GASEOUS, entityPlayerMP -> entityPlayerMP.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 21, 1)), TextFormatting.YELLOW, "tooltip.hotornot.toolight");
-
-        private final Predicate<FluidStack> isValid;
-        private final Consumer<EntityPlayerMP> interactPlayer;
-        private final TextFormatting color;
-        private final String tooltip;
-
-        FluidEffect(Predicate<FluidStack> isValid, Consumer<EntityPlayerMP> interactPlayer, TextFormatting color, String tooltip) {
-            this.isValid = isValid;
-            this.interactPlayer = interactPlayer;
-            this.color = color;
-            this.tooltip = tooltip;
-        }
-
-    }
-
-    @Mod.EventBusSubscriber
-    public static class ServerTick {
-
-        @SubscribeEvent
-        public static void onTick(TickEvent.WorldTickEvent event) {
-            if (event.phase == TickEvent.Phase.START) {
-                for (EntityPlayerMP entityPlayerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
-                    IItemHandler handler = entityPlayerMP.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-                    if (!entityPlayerMP.isBurning() && !entityPlayerMP.isCreative() && handler != null) {
-                        for (int i = 0; i < handler.getSlots(); i++) {
-                            ItemStack stack = handler.getStackInSlot(i);
-                            IFluidHandlerItem fluidHandlerItem = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-                            if (!stack.isEmpty() && fluidHandlerItem != null) {
-                                FluidStack fluidStack = fluidHandlerItem.drain(1000, false);
-                                if (fluidStack != null) {
-                                    for (FluidEffect effect : FluidEffect.values()) {
-                                        if (effect.isValid.test(fluidStack)) {
-                                            IBaublesItemHandler baublesInv = BaublesApi.getBaublesHandler(entityPlayerMP);
-                                            ItemStack ring1 = baublesInv.getStackInSlot(1);
-                                            ItemStack ring2 = baublesInv.getStackInSlot(2);
-                                            if (ring1.getItem() instanceof MittsItem && ring2.getItem() instanceof MittsItem && ring1.getMetadata() == 0 && ring2.getMetadata() == 1 && ring1.getTagCompound().getInteger(MittsItem.NBTTAG_DURABILITY) >= 1 && ring2.getTagCompound().getInteger(MittsItem.NBTTAG_DURABILITY) >= 1) {
-                                                if (ring1.getTagCompound() != null && ring2.getTagCompound() != null && event.world.getTotalWorldTime() % 20 == 0) {
-                                                    int tCurrentDura = MittsItem.getNBTDurability(ring1);
-                                                    int tCurrentDura1 = MittsItem.getNBTDurability(ring2);
-                                                    if (tCurrentDura > 0 && event.world.getTotalWorldTime() % 20 == 0) {
-                                                        ring1.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, tCurrentDura - 1);
-                                                        ring2.getTagCompound().setInteger(MittsItem.NBTTAG_DURABILITY, tCurrentDura1 - 1);
-                                                    }
-                                                }
-                                            } else if (event.world.getTotalWorldTime() % 20 == 0 && (!(ring1.getItem() instanceof SuperMittsItem) && !(ring2.getItem() instanceof SuperMittsItem))) {
-                                                effect.interactPlayer.accept(entityPlayerMP);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Config(modid = MOD_ID)
-    public static class HotConfig {
-
-        @Config.Comment("How hot a fluid should be to start burning the player (in kelvin)")
-        public static int HOT = 1300;
-
-        @Config.Comment("How cold a fluid should be to start adding effects the player (in kelvin)")
-        public static int COLD = 273;
-
-        @Config.Comment("If true gaseous effects for the fluids will be enabled")
-        public static boolean GASEOUS = true;
-
-        @Config.Comment("If true, the items that contain hot fluid will have a tooltip that will show that they are too hot")
-        public static boolean TOOLTIP = true;
-
-        @Mod.EventBusSubscriber(modid = MOD_ID)
-        private static class EventHandler {
-            @SubscribeEvent
-            public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event) {
-                if (event.getModID().equals(MOD_ID)) {
-                    ConfigManager.sync(MOD_ID, Config.Type.INSTANCE);
-                }
-            }
-        }
-    }
-
-    @Mod.EventBusSubscriber(value = Side.CLIENT)
-    public static class HotTooltip {
-
-        @SubscribeEvent
-        public static void onTooltip(ItemTooltipEvent event) {
-            ItemStack stack = event.getItemStack();
-            if (HotConfig.TOOLTIP && !stack.isEmpty() && stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-                IFluidHandlerItem fluidHandlerItem = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-                FluidStack fluidStack = fluidHandlerItem.drain(1000, false);
-                if (fluidStack != null) {
-                    for (FluidEffect effect : FluidEffect.values()) {
-                        if (effect.isValid.test(fluidStack))
-                            event.getToolTip().add(effect.color + new TextComponentTranslation(effect.tooltip).getUnformattedText());
-                    }
-                }
-            }
         }
     }
 }

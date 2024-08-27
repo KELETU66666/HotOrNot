@@ -1,10 +1,12 @@
 package com.buuz135.hotornot.item;
 
 import baubles.api.BaubleType;
+import static baubles.api.BaubleType.RING;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.cap.IBaublesItemHandler;
 import com.buuz135.hotornot.HotOrNot;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -17,15 +19,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static baubles.api.BaubleType.RING;
 
 public class MittsItem extends Item implements IBauble {
 
@@ -38,7 +37,7 @@ public class MittsItem extends Item implements IBauble {
         setMaxStackSize(1);
         setMaxDamage(0);
         setHasSubtypes(true);
-        setUnlocalizedName(HotOrNot.MOD_ID + ".mitts");
+        setTranslationKey(HotOrNot.MOD_ID + ".mitts");
         setCreativeTab(CreativeTabs.TOOLS);
     }
 
@@ -78,10 +77,10 @@ public class MittsItem extends Item implements IBauble {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack pItemStack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        list.add("Protecting your fingers since 1890");
-        list.add(String.format("Durability: %d/%d", getNBTDurability(pItemStack), MaxDurability));
+        list.add(I18n.format("item.hotornot.mitts.tooltip.1"));
+        list.add(I18n.format("item.hotornot.mitts.tooltip.durability", getNBTDurability(pItemStack), MaxDurability));
         if (pItemStack.getTagCompound().getInteger(NBTTAG_DURABILITY) <= 1) {
-            list.add("This glove is too damaged to protect you. You need to repair it");
+            list.add(I18n.format("item.hotornot.mitts.tooltip.2"));
         }
     }
 
@@ -106,9 +105,9 @@ public class MittsItem extends Item implements IBauble {
                 return;
             }
 
-            if (ring1.getItemDamage() != 0 && ring2.getItemDamage() != 1) {
+            if (ring1.getItemDamage() != 0 || ring2.getItemDamage() != 1) {
                 if (!entity.world.isRemote)
-                    entity.sendMessage(new TextComponentString(TextFormatting.RED.toString() + TextFormatting.BOLD + I18n.translateToLocal("item.hotornot.mitts.tooltip")));
+                    entity.sendMessage(new TextComponentString(TextFormatting.RED.toString() + TextFormatting.BOLD + I18n.format("item.hotornot.mitts.tooltip.error")));
                 entity.playSound(SoundEvents.ENTITY_VILLAGER_NO, 1, 1);
             }
 
