@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -107,7 +108,7 @@ public class MittsItem extends Item implements IBauble {
 
             if (ring1.getItemDamage() != 0 || ring2.getItemDamage() != 1) {
                 if (!entity.world.isRemote)
-                    entity.sendMessage(new TextComponentString(TextFormatting.RED.toString() + TextFormatting.BOLD + I18n.format("item.hotornot.mitts.tooltip.error")));
+                    entity.sendMessage(new TextComponentTranslation("item.hotornot.mitts.tooltip.error"));
                 entity.playSound(SoundEvents.ENTITY_VILLAGER_NO, 1, 1);
             }
 

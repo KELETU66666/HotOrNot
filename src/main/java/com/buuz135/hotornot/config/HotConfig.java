@@ -12,15 +12,15 @@ public class HotConfig
 {
     @Config.Name("Hot items")
     @Config.Comment("If true, hot effects for items will be enabled")
-    public static boolean HOT_ITEMS = true;
+    public static boolean HOT_ITEMS = false;
 
     @Config.Name("Cold items")
     @Config.Comment("If true, cold effects for items will be enabled")
-    public static boolean COLD_ITEMS = true;
+    public static boolean COLD_ITEMS = false;
 
     @Config.Name("Gaseous items")
     @Config.Comment("If true, gaseous effects for items will be enabled")
-    public static boolean GASEOUS_ITEMS = true;
+    public static boolean GASEOUS_ITEMS = false;
 
     @Config.Name("Hot fluids")
     @Config.Comment("If true, hot effects for fluids will be enabled")
@@ -40,11 +40,11 @@ public class HotConfig
 
     @Config.Name("Item throwing")
     @Config.Comment("If true, hot items make the player yeet them")
-    public static boolean YEET = true;
+    public static boolean YEET = false;
 
     @Config.Name("Throw entire stack")
     @Config.Comment("If true, the player yeets the entire stack of items")
-    public static boolean YEET_STACK = true;
+    public static boolean YEET_STACK = false;
 
     @Config.Name("Hot fluid temperature")
     @Config.Comment("How hot a fluid should be to start burning the player (in Celsius)")

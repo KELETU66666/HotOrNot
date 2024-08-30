@@ -4,15 +4,15 @@
     "data": 1
   },
   "pattern": [
-    " W ",
+    " WI",
     "WLW",
-    " WI"
+    " W "
   ],
   "type": "forge:ore_shaped",
   "key": {
     "W": {
-      "item": "minecraft:wool",
-      "data": 12
+      "type": "forge:ore_dict",
+      "ore": "wool"
     },
     "L": {
       "item": "minecraft:leather"
